@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "biomejs.biome",
+    "streetsidesoftware.code-spell-checker",
+    "bierner.comment-tagged-templates",
+    "YoavBls.pretty-ts-errors"
+  ]
+}

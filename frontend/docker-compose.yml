@@ -1,0 +1,10 @@
+name: pocket-js-web
+
+services:
+  app:
+    build: .
+    entrypoint: "dockerize .docker/entrypoint.sh"
+    ports:
+      - ${VITE_PORT}:5173
+    volumes:
+      - .:/usr/src/app

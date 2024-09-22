@@ -1,0 +1,33 @@
+name: pocket-js-server
+
+services:
+  pg:
+    image: bitnami/postgresql:13.16.0
+    ports:
+      - ${DATABASE_PORT}:5432
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - ~/.data/PostgreSQL:/var/lib/postgresql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - pg
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - ${PGADMIN_PORT}:80
+
+  api:
+    build: .
+    entrypoint: "dockerize -wait tcp://pg:5432 -timeout 20s .docker/entrypoint.sh"
+    depends_on:
+      - pg
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - .:/usr/src/app
